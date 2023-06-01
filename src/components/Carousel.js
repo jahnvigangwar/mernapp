@@ -10,7 +10,7 @@ export default function Carousel() {
         style={{ objectFit: "contain !important" }}
       >
         <div className="carousel-inner " id="carousel">
-          <div class=" carousel-caption  " style={{ zIndex: "9" }}>
+          <div className=" carousel-caption  " style={{ zIndex: "9" }}>
             <form className=" d-flex justify-content-center">
               <input
                 className="form-control me-2"

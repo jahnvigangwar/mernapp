@@ -4,6 +4,10 @@ const User = require('../models/Users')
 
 const { body, validationResult } = require('express-validator');
 
+const jwtSecret = "JahnviAndKimayaAreTheBest"
+const bcrypt = require("bcryptjs");
+const jwt = require ('jsonwebtoken');
+
 router.post("/createuser", 
 body('email', 'enter a valid email').isEmail(),
 body('name', 'min length is 5').isLength({ min: 5 }),  
@@ -15,11 +19,14 @@ async(req, res)=>{
       return res.status(400).json({ errors: errors.array() });
     }
 
+    const salt = await bcrypt.genSalt(10);
+    let secPassword = await bcrypt.hash(req.body.password, salt);
+
     try {
         await User.create({
             name:req.body.name,
             email:req.body.email,
-            password:req.body.password,
+            password:secPassword,
             location:req.body.location
         })
         res.json({success:true});
@@ -49,12 +56,20 @@ async(req, res)=>{
             return res.status(400).json({ errors: "User does not exist" });
         }
 
-        if(req.body.password !== userdata.password)
+        const pwdCompare = await bcrypt.compare(req.body.password, userdata.password)
+        if(!pwdCompare)
         {
             return res.status(400).json({ errors: "Invalid password" });
         }
 
-        return res.json({success:true});
+        const data = {
+            user:{
+                id: userdata.id
+            }
+        }
+
+        const authToken = jwt.sign(data, jwtSecret)
+        return res.json({ success:true, authToken: authToken});
      } 
     
     catch (error) {
