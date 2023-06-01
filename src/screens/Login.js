@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
 export default function Login() {
 
     const [credentials, setCredentials] = useState({ email: "", password: "" })
-
+    let navigate = useNavigate()
     const handleLogin = async(e) => {
         e.preventDefault();
-        const response = await fetch('http://localhost:3001/api/createuser', {
+        const response = await fetch('http://localhost:3001/api/loginuser', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -22,6 +22,10 @@ export default function Login() {
         if(!json.success){
             alert("enter valid credentials")
         }
+
+        if(json.success){
+          navigate("/");
+      }
         }
         const onChange = (event) =>{
             setCredentials({...credentials, [event.target.name]:event.target.value})
