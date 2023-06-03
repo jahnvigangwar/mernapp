@@ -115,7 +115,14 @@ const loadData = async ()=>{
                 return(
                   <div key={filterItems._id} className="col-12 col-md-6 col-lg-3">
                     {/* <div>{filterItems.options[0]}</div> */}
-                   <Card foodName={filterItems.name} item={filterItems} options={filterItems.options[0]} ImgSrc={filterItems.img} ></Card> 
+                   <Card 
+                  //  foodItem={filterItems}
+                   foodName={filterItems.name} 
+                   item={filterItems} 
+                   ImgSrc={filterItems.img}
+                   options={filterItems.options[0]} >
+                   
+                    </Card> 
                   </div>
                 )
               })
