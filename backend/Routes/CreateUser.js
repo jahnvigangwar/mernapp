@@ -4,7 +4,10 @@ const User = require('../models/Users')
 
 const { body, validationResult } = require('express-validator');
 
-const jwtSecret = "JahnviAndKimayaAreTheBest"
+const jwtSecret = process.env.JWT_SECRET;
+if (!jwtSecret) {
+    throw new Error("Set JWT_SECRET before starting the backend.");
+}
 const bcrypt = require("bcryptjs");
 const jwt = require ('jsonwebtoken');
 
