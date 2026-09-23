@@ -1,11 +1,8 @@
 const mongoose = require('mongoose');
-const mongoURI = 'mongodb+srv://goFood:goFood@cluster0.kwgc6ch.mongodb.net/gofoodmern?retryWrites=true&w=majority'
-
-const mongoDB = async()=>{
-    await mongoose.connect(mongoURI,{ useNewUrlParser: true },async (err, result) => {
-        if (err) console. log ("----",err)
-        else{
-            console.log("Mongo Connectd");
+const mongoURI = process.env.MONGODB_URI;
+if (!mongoURI) {
+    throw new Error("Set MONGODB_URI before starting the backend.");
+}
             const fetched_data = await mongoose.connection.db.collection("food_items");
             fetched_data.find({}).toArray( async function(err,data){
 

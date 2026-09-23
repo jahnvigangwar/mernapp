@@ -1,70 +1,45 @@
-# Getting Started with Create React App
+# mernapp
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A small full-stack food ordering prototype with a React client and an Express/MongoDB API.
 
-## Available Scripts
+## What is implemented
 
-In the project directory, you can run:
+- React screens for the home page, account registration, and login.
+- Express routes for account creation, login, and food data.
+- Password hashing with bcrypt and token-based authentication with JWT.
+- Food data is read from the MongoDB `food_items` and `foodcategory` collections.
 
-### `npm start`
+This is a learning project, not a production-ready service. It has no automated backend test suite yet.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Run locally
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Use a MongoDB database that contains the expected food collections. In a terminal, configure a MongoDB URI and a fresh JWT signing key. Do not use credentials that have appeared in this repository.
 
-### `npm test`
+```sh
+export MONGODB_URI='mongodb://127.0.0.1:27017/mernapp'
+export JWT_SECRET="$(node -e 'console.log(require("crypto").randomBytes(32).toString("hex"))')"
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Start the backend:
 
-### `npm run build`
+```sh
+cd backend
+npm install
+npm start
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+In another terminal, start the React client:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```sh
+cd <repository-root>
+npm install
+npm start
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The client runs on port 3000 and the API runs on port 3001. The current CORS configuration permits the local client origin.
 
-### `npm run eject`
+## Security
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Keep `MONGODB_URI` and `JWT_SECRET` in environment configuration, never in tracked source files.
+- The database connection string and JWT signing value were previously committed to this public repository. Treat them as exposed: rotate the database credential in its provider and replace any deployed signing key.
+- Removing a value from the latest files does not erase it from Git history. If history needs to be scrubbed, coordinate a history rewrite after credential rotation.
